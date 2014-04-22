@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <time.h>
 #include "keys.h"
+#include "trace.h"
 
 static rsa_int test_values[NUM_TESTS];
 
@@ -17,13 +18,9 @@ rsa_int generate_candidate()
     r = rand();
     for(i = 0; i < NUM_BITS - 2; i ++) {
         r = rand();
-#ifdef RSA_TRACE
-        printf("Random Number %d: %d\n", i + 1, r);
-#endif
+        trace("Random Number %d: %d\n", i + 1, r);
         lsb = r & 1;
-#ifdef RSA_TRACE
-        printf("Extracted Bit: %d\n", lsb);
-#endif
+        trace("Extracted Bit: %d\n", lsb);
         lsb <<= i + 1;
         n |= lsb;
     } 
