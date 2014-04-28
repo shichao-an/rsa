@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -DNTRACE
+CFLAGS = -Wall
 
 .PHONY: clean
 

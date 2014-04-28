@@ -16,24 +16,27 @@ rsa_int generate_candidate()
     n <<= (NUM_BITS - 1);
     n |= 1;
     r = rand();
-    for(i = 0; i < NUM_BITS - 2; i ++) {
+    for (i = 0; i < NUM_BITS - 2; i ++) {
         r = rand();
         trace("Random Number %d: %d\n", i + 1, r);
         lsb = r & 1;
         trace("Extracted Bit: %d\n", lsb);
         lsb <<= i + 1;
         n |= lsb;
-    } 
+    }
     return n;
 
 }
 
+/* Miller-Rabin primality test
+ *
+ */
 int primality_test(rsa_int a, rsa_int n)
 {
     rsa_int x = n - 1;
     rsa_int y = 1, z;
     int i, cb;
-    for(i = NUM_BITS - 1; i >= 0; i--) {
+    for (i = NUM_BITS - 1; i >= 0; i--) {
         z = y;
         y = y * y % n;
         if (y == 1 && z != 1 && z != n - 1)
@@ -62,7 +65,7 @@ int is_prime(rsa_int n)
         c = (rsa_int) rand() % (int) n;
         if (c == 0) continue;
         test_values[i] = c;
-        for(j = 0; j < i; j++) {
+        for (j = 0; j < i; j++) {
             if (test_values[j] == c) {
                 tested = 1;
                 i++;
