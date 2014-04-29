@@ -1,3 +1,4 @@
+#include <assert.h>
 #include <string.h>
 #include <stdlib.h> 
 #include <stdio.h>
@@ -9,26 +10,34 @@
 int main()
 {
     srand(time(NULL));
-    //printf("%d\n", generate_candidate());
-    //printf("%d\n", is_prime(113));
-    printf("%d\n", generate_prime());
-    printf("%d\n", get_inverse(28, 75));
-    Keypair *kp = generate_keypair();
-    printf("N: %d\n", kp->public_key->n);
-    printf("Pub: %d\n", kp->public_key->k);
-    printf("Pri: %d\n", kp->private_key->k);
-    destroy_keypair(kp);
-    char *bytes = int_to_chars(128);
-    printf("%d\n", bytes[2]);
-    printf("%d\n", bytes[3]);
-    Pair *r = (Pair *) malloc(sizeof(Pair));
-    memset(r->name, ' ', 6);
-    r->n = 10;
-    r->e = 5;
-    rsa_hash_t res = rsa_hash(r);
-    printf("hash:%d\n", res);
-    char a = 1;
-    char b = 2;
-    printf("a^z:%d\n", a^b);
+    Keypair *t = generate_keypair();  // Trent
+    Keypair *kp1 = generate_keypair(); // Alice
+
+    /* Alice's certificate */
+    Certificate *c = generate_certificate("Alice", kp1->public_key, t->private_key);
+
+    /* Bob's u */
+    rsa_int u = generate_random_u(c);
+
+    /* Alice computes h(u) and v */
+    //rsa_int hu = rsa_int_hash(u);
+    rsa_int hu = 4400;
+
+    rsa_int v = crypt(hu, kp1->private_key);
+
+    /* Alice sends v to Bob 
+     * Bob encrypts v with Alice's public key,
+     * and checks whether it is h(u)
+     * */
+    rsa_int r = crypt(v, kp1->public_key);
+    printf("v: %d\n", v);
+    printf("hu: %d\n", hu);
+    printf("r: %d\n", r);
+    printf("%d\n", fast_exp(5, 13, 77));
+    printf("%d\n", fast_exp(26, 37, 77));
+
+    destroy_certificate(c);
+    destroy_keypair(kp1);
+    destroy_keypair(t);
     return 0;
 }
