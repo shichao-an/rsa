@@ -3,9 +3,9 @@ CFLAGS = -Wall
 
 .PHONY: clean
 
-OBJFLS = keys.o
+OBJFLS = keys.o certificate.o
 
-%.o: %.c keys.h
+%.o: %.c keys.h certificate.h
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 main: main.o $(OBJFLS) 

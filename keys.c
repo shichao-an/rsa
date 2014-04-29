@@ -172,3 +172,29 @@ void destroy_keypair(Keypair *keypair)
     free(keypair->private_key);
     free(keypair);
 }
+
+/* Fast exponentiation a^x mod n
+ */
+rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n)
+{
+    rsa_int y = 1;
+    int i, cb;
+    for (i = NUM_BITS - 1; i >= 0; i--) {
+        y = y * y % n;
+        // Get bit of `x` at `i`
+        cb = ((x & (1 << i)) != 0);
+        if (cb == 1)
+            y = y * a % n;
+    }
+    return y;
+}
+
+/* Encrypt or decrypt using fast exponentiation
+ */
+rsa_int crypt(rsa_int m, Key *key)
+{
+    rsa_int n, k;
+    n = key->n;
+    k = key->k;
+    return fast_exp(m, k, n);
+}

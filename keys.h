@@ -26,4 +26,6 @@ rsa_int get_inverse(rsa_int a, rsa_int n);
 Key *generate_key();
 Keypair *generate_keypair();
 void destroy_keypair(Keypair *keypair);
+rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n);
+rsa_int crypt(rsa_int m, Key *key);
 #endif
