@@ -20,7 +20,10 @@ typedef struct Keypair {
 
 rsa_int generate_candidate();
 rsa_int primality_test(rsa_int a, rsa_int n);
-rsa_int is_prime(rsa_int n);
+int is_prime(rsa_int n);
 rsa_int generate_prime();
-
+rsa_int get_inverse(rsa_int a, rsa_int n);
+Key *generate_key();
+Keypair *generate_keypair();
+void destroy_keypair(Keypair *keypair);
 #endif

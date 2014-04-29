@@ -18,9 +18,9 @@ rsa_int generate_candidate()
     r = rand();
     for (i = 0; i < NUM_BITS - 2; i ++) {
         r = rand();
-        trace("Random Number %d: %d\n", i + 1, r);
+        trace("97-100:Random Number %d: %d", i + 1, r);
         lsb = r & 1;
-        trace("Extracted Bit: %d\n", lsb);
+        trace("97-100:Extracted Bit: %d", lsb);
         lsb <<= i + 1;
         n |= lsb;
     }
@@ -73,17 +73,102 @@ int is_prime(rsa_int n)
             }
         }
         if (tested) continue;
-        printf("c: %d\n", c);
+        //printf("c: %d\n", c);
         if (!primality_test(c, n)) return 0;
         i++;
     }
     return 1;
 }
 
-
+/* `generate_prime` generates a prime number after performing primality
+ * test
+ * For completeness, this function makes sure that `generate_candidate`
+ * generates a non-prime number to trace
+ */
 rsa_int generate_prime()
 {
     rsa_int prime = generate_candidate();
-
+    while (is_prime(prime))
+        prime = generate_candidate();
+    trace("112-117:Not Prime: %d", prime);
+    while (!is_prime(prime))
+        prime = generate_candidate();
+    trace("112-117:Perhaps Prime: %d", prime);
     return prime;
+}
+
+/* `get_inverse` calculates the multiplicative inverse of `a` modulo `n`
+ * using the Extended Euclidean algorithm
+ */
+rsa_int get_inverse(rsa_int a, rsa_int n)
+{
+    rsa_int s = 0, old_s = 1, t = 1, old_t = 0;
+    rsa_int r = a, old_r = n;
+    rsa_int tr, ts, tt, q;  // Temporary variables
+    while (r != 0) {
+        tr = r;
+        ts = s;
+        tt = t;
+        q = old_r / r; 
+        r = old_r - q * tr;
+        s = old_s - q * ts;
+        t = old_t - q * tt;
+        old_r = tr;
+        old_s = ts;
+        old_t = tt;
+    }
+    if (old_r > 1) {
+        trace("133-142:Invalid e: %d", a);
+        return -1;  // gcd(a,n) != 1, thus a is not invertible modulo n,
+                    // i.e. a and n are not relatively prime
+    }
+    if (old_t < 0)
+        old_t += n;
+    return old_t;
+}
+
+/* `generate_key` generates a RSA key
+ *
+ */
+Key *generate_key(rsa_int k, rsa_int n)
+{
+    Key *key = (Key *)malloc(sizeof(Key));
+    key->n = n;
+    key->k = k;
+    return key;
+}
+
+/* `generate_keypair` generates an RSA keypair (public_key, private_key)
+ *
+ */
+Keypair *generate_keypair()
+{
+    rsa_int p, q, n, phi;
+    rsa_int e = 3, d;
+    Keypair *keypair;
+    p = generate_prime();
+    do {
+        q = generate_prime();
+    } while (q == p);
+    n = p * q;
+    phi = (p - 1) * (q - 1);
+    while (get_inverse(e, phi) == -1) {
+        e++;
+    }
+    d = get_inverse(e, phi);
+    trace("143-144:d: %d", d);
+    trace("147-148:p,q,n,e,d: %d,%d,%d,%d,%d", p, q, n, e, d);
+    keypair = (Keypair *)malloc(sizeof(Keypair));
+    keypair->public_key = generate_key(e, n);
+    keypair->private_key = generate_key(d, n);
+    return keypair;
+}
+
+/* Free the keypair and wrapped keys
+ */
+void destroy_keypair(Keypair *keypair)
+{
+    free(keypair->public_key);
+    free(keypair->private_key);
+    free(keypair);
 }
