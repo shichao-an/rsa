@@ -20,9 +20,7 @@ int main()
     rsa_int u = generate_random_u(c);
 
     /* Alice computes h(u) and v */
-    //rsa_int hu = rsa_int_hash(u);
-    rsa_int hu = 4400;
-
+    rsa_int hu = rsa_int_hash(u);
     rsa_int v = crypt(hu, kp1->private_key);
 
     /* Alice sends v to Bob 
@@ -30,11 +28,7 @@ int main()
      * and checks whether it is h(u)
      * */
     rsa_int r = crypt(v, kp1->public_key);
-    printf("v: %d\n", v);
-    printf("hu: %d\n", hu);
-    printf("r: %d\n", r);
-    printf("%d\n", fast_exp(5, 13, 77));
-    printf("%d\n", fast_exp(26, 37, 77));
+    assert(r == hu);
 
     destroy_certificate(c);
     destroy_keypair(kp1);

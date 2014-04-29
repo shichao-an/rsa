@@ -178,7 +178,13 @@ rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n)
 {
     rsa_int y = 1;
     int i, cb;
-    for (i = NUM_BITS - 1; i >= 0; i--) {
+    int xx = x, k = -1;
+    while (xx != 0) {
+        xx >>= 1;
+        k++;    
+    }
+    /* x_k, x_k-1, ..., x_0 */
+    for (i = k; i >= 0; i--) {
         y = y * y % n;
         // Get bit of `x` at `i`
         cb = ((x & (1 << i)) != 0);
