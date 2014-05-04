@@ -16,7 +16,7 @@ void print_int_bits(rsa_int a, char *desc)
         b = (a & (1 << i)) != 0 ? '1' : '0';
         s[31 - i] = b;
     }
-    printf("%s: %s\n", desc, s);
+    printf("  %s: %s\n", desc, s);
 }
 
 void print_char_bits(char a, char *desc)
@@ -29,7 +29,7 @@ void print_char_bits(char a, char *desc)
         b = (a & (1 << i)) != 0 ? '1' : '0';
         s[7 - i] = b;
     }
-    printf("%s: %s\n", desc, s);
+    printf("  %s: %s\n", desc, s);
 }
 
 void print_pair_bits(Pair *r, char *desc)
@@ -52,5 +52,5 @@ void print_pair_bits(Pair *r, char *desc)
         b = (r->e & (1 << i)) != 0 ? '1' : '0';
         s[nc + 63 - i] = b;
     }
-    printf("%s: %s\n", desc, s);
+    printf("  %s: %s\n", desc, s);
 }

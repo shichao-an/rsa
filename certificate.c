@@ -52,7 +52,7 @@ rsa_int rsa_int_hash(rsa_int u)
 rsa_int rsa_sign(rsa_int h, Key *private_key)
 {
     rsa_int sig;
-    sig = crypt(h, private_key);
+    sig = crypt(h, private_key, 0);
     return sig;
 }
 
@@ -88,7 +88,7 @@ Certificate *generate_certificate(char name[], Key *public_key, Key *private_key
     trace("177-178:s: %d", s);
     trace("Sequence of bits for r, h(r) and s:");
     trace_pair_bits(r, "r");
-    trace_int_bits(h, "h(r)");
+    trace_char_bits(h, "h(r)");
     trace_int_bits(s, "s");
 
     /* Add pair and signed hash to certificate */
@@ -127,6 +127,8 @@ rsa_int generate_random_u(Certificate *cert)
         k++;    
     }
     trace("195-196:k: %d", k);
+    trace("Sequence of bits for k");
+    trace_int_bits(k, "k");
     u <<= (k - 1);  // Set bit u_k-1 to 1
 
     /* Randomly set bit u_k-2 ... u_0 */
@@ -137,5 +139,7 @@ rsa_int generate_random_u(Certificate *cert)
         u |= lsb;
     }
     trace("195-196:u: %d", u);
+    trace("Sequence of bits for u");
+    trace_int_bits(u, "u");
     return u;
 }

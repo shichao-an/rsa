@@ -27,7 +27,7 @@ Key *generate_key();
 Keypair *generate_keypair();
 void destroy_keypair(Keypair *keypair);
 rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n);
-rsa_int crypt(rsa_int m, Key *key);
+rsa_int crypt(rsa_int m, Key *key, int encrypt);
 char *get_bit_sequence(rsa_int a);
 void print_int_bits(rsa_int a, char *desc);
 void print_char_bits(char a, char *desc);

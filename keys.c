@@ -193,19 +193,25 @@ rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n)
     }
     /* x_k, x_k-1, ..., x_0 */
     for (i = k; i >= 0; i--) {
+        trace("207-208: y: %d", y);
         y = y * y % n;
         // Get bit of `x` at `i`
         cb = ((x & (1 << i)) != 0);
         if (cb == 1)
             y = y * a % n;
     }
+    trace("207-208: (result) y: %d", y);
     return y;
 }
 
 /* Encrypt or decrypt using fast exponentiation
+ * param `encrypt` is a boolean indicating whether encrypting or decrypting
  */
-rsa_int crypt(rsa_int m, Key *key)
+rsa_int crypt(rsa_int m, Key *key, int encrypt)
 {
+    char f[2];
+    encrypt ? strcpy(f, "en") : strcpy(f, "de");
+    trace("207-208: (message to %scrypt) m: %d", f, m);
     rsa_int n, k;
     n = key->n;
     k = key->k;
