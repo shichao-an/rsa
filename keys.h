@@ -5,7 +5,7 @@
 #define NUM_TESTS 20  /* Number of values to pass primality test */
 
 
-typedef int rsa_int; 
+typedef int rsa_int;
 typedef struct Key {
     rsa_int n;
     rsa_int k;

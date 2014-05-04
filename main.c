@@ -1,6 +1,6 @@
 #include <assert.h>
 #include <string.h>
-#include <stdlib.h> 
+#include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
 #include "keys.h"
@@ -15,7 +15,8 @@ int main()
     Keypair *kp1 = generate_keypair(); // Alice
 
     /* Alice's certificate */
-    Certificate *c = generate_certificate("Alice", kp1->public_key, t->private_key);
+    Certificate *c = generate_certificate("Alice", kp1->public_key,
+                                          t->private_key);
 
     /* Bob's u */
     rsa_int u = generate_random_u(c);
@@ -24,7 +25,7 @@ int main()
     rsa_int hu = rsa_int_hash(u);
     rsa_int v = crypt(hu, kp1->private_key, 0);
 
-    /* Alice sends v to Bob 
+    /* Alice sends v to Bob
      * Bob encrypts v with Alice's public key,
      * and checks whether it is h(u)
      * */

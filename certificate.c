@@ -27,8 +27,8 @@ rsa_int rsa_hash(Pair *r)
     free(n_bytes);
     free(e_bytes);
     fres = (unsigned char) res; // Convert plain (signed) char to unsigned char,
-                                // so that storing it as 32-bit signed int by
-                                // padding leading zeroes
+    // so that storing it as 32-bit signed int by
+    // padding leading zeroes
     return (rsa_int) fres;
 }
 
@@ -56,7 +56,8 @@ rsa_int rsa_sign(rsa_int h, Key *private_key)
     return sig;
 }
 
-Certificate *generate_certificate(char name[], Key *public_key, Key *private_key)
+Certificate *generate_certificate(char name[], Key *public_key,
+                                  Key *private_key)
 {
     Pair *r;
     Certificate *cert;
@@ -80,7 +81,7 @@ Certificate *generate_certificate(char name[], Key *public_key, Key *private_key
     /* Add n and e to Pair r */
     r->n = public_key->n;
     r->e = public_key->k;
-    
+
     /* Hash r to h and sign h */
     h = rsa_hash(r);
     s = rsa_sign(h, private_key);
@@ -100,7 +101,7 @@ Certificate *generate_certificate(char name[], Key *public_key, Key *private_key
 void destroy_certificate(Certificate *cert)
 {
     free(cert->pair);
-    free(cert); 
+    free(cert);
 }
 
 /* Convert a 32-bit integer to an four-sized array of chars
@@ -124,7 +125,7 @@ rsa_int generate_random_u(Certificate *cert)
     int lsb, r, i, k = -1;
     while (n != 0) {
         n >>= 1;
-        k++;    
+        k++;
     }
     trace("195-196:k: %d", k);
     trace("Sequence of bits for k");

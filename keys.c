@@ -109,7 +109,7 @@ rsa_int get_inverse(rsa_int a, rsa_int n)
         tr = r;
         ts = s;
         tt = t;
-        q = old_r / r; 
+        q = old_r / r;
         r = old_r - q * tr;
         s = old_s - q * ts;
         t = old_t - q * tt;
@@ -120,7 +120,7 @@ rsa_int get_inverse(rsa_int a, rsa_int n)
     if (old_r > 1) {
         trace("133-142:Invalid e: %d", a);
         return -1;  // gcd(a,n) != 1, thus a is not invertible modulo n,
-                    // i.e. a and n are not relatively prime
+        // i.e. a and n are not relatively prime
     }
     if (old_t < 0)
         old_t += n;
@@ -189,7 +189,7 @@ rsa_int fast_exp(rsa_int a, rsa_int x, rsa_int n)
     int xx = x, k = -1;
     while (xx != 0) {
         xx >>= 1;
-        k++;    
+        k++;
     }
     /* x_k, x_k-1, ..., x_0 */
     for (i = k; i >= 0; i--) {

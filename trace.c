@@ -39,7 +39,7 @@ void print_pair_bits(Pair *r, char *desc)
     s[ns - 1] = '\0';  // ns - 1 = 70
     // name: bytes 1 - 6 (Bit index 0 - 5)
     strncpy(s, r->name, nc);
-    // n: bytes 7 - 10 (Bit index 6 - 37) 
+    // n: bytes 7 - 10 (Bit index 6 - 37)
     for (i = 0; r->n >> i && i <= 31; i++) {
         b = (r->n & (1 << i)) != 0 ? '1' : '0';
         s[nc + 31 - i] = b;
