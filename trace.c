@@ -3,9 +3,6 @@
 #include <string.h>
 #include "trace.h"
 
-/*
- * param `bits`: number of bits to print
- */
 void print_int_bits(rsa_int a, char *desc)
 {
     char s[33], b;
