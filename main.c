@@ -33,5 +33,6 @@ int main()
     destroy_certificate(c);
     destroy_keypair(kp1);
     destroy_keypair(t);
+    print_char_bits(255, "a");
     return 0;
 }

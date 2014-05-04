@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include "keys.h"
 #include "certificate.h"
+#include "trace.h"
 
 /* One-way hash function
  */
@@ -85,6 +86,10 @@ Certificate *generate_certificate(char name[], Key *public_key, Key *private_key
     s = rsa_sign(h, private_key);
     trace("177-178:h(r): %d", h);
     trace("177-178:s: %d", s);
+    trace("Sequence of bits for r, h(r) and s:");
+    trace_pair_bits(r, "r");
+    trace_int_bits(h, "h(r)");
+    trace_int_bits(s, "s");
 
     /* Add pair and signed hash to certificate */
     cert->pair = r;

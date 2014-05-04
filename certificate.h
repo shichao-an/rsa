@@ -1,7 +1,6 @@
 #ifndef RSA_CERTIFICATE_H
 #define RSA_CERTIFICATE_H
 #include "keys.h"
-#include "trace.h"
 
 #define NUM_NAME_CHARS 6
 

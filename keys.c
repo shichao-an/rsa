@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "keys.h"
 #include "trace.h"
 
@@ -155,8 +156,15 @@ Keypair *generate_keypair()
         e++;
     }
     d = get_inverse(e, phi);
+    trace("143-144:e: %d", e);
     trace("143-144:d: %d", d);
     trace("147-148:p,q,n,e,d: %d,%d,%d,%d,%d", p, q, n, e, d);
+    trace("Sequence of bits for p, q, n, e, and d");
+    trace_int_bits(p, "p");
+    trace_int_bits(q, "q");
+    trace_int_bits(n, "n");
+    trace_int_bits(e, "e");
+    trace_int_bits(d, "d");
     keypair = (Keypair *)malloc(sizeof(Keypair));
     keypair->public_key = generate_key(e, n);
     keypair->private_key = generate_key(d, n);
@@ -203,3 +211,4 @@ rsa_int crypt(rsa_int m, Key *key)
     k = key->k;
     return fast_exp(m, k, n);
 }
+
