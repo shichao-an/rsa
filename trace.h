@@ -11,7 +11,7 @@
 #define trace_char_bits(M, ...)
 #define trace_pair_bits(M, ...)
 #else
-#define trace(M, ...) fprintf(stderr, "TRACE %s:%d: " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
+#define trace(M, ...) fprintf(stdout, "TRACE %s:%d: " M "\n", __FILE__, __LINE__, ##__VA_ARGS__)
 #define trace_int_bits(M, ...) print_int_bits(M, ##__VA_ARGS__)
 #define trace_char_bits(M, ...) print_char_bits(M, ##__VA_ARGS__)
 #define trace_pair_bits(M, ...) print_pair_bits(M, ##__VA_ARGS__)
