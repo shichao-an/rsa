@@ -31,10 +31,18 @@ void print_char_bits(char a, char *desc)
 
 void print_pair_bits(Pair *r, char *desc)
 {
-    size_t nc = NUM_NAME_CHARS;
+    // size_t nc = NUM_NAME_CHARS;
+    int k, i;
+    size_t nc = 0;
+    char c[2];
+    printf("  Sequence of bits for %s:\n", desc);
+    printf("  Bytes 1 - 6:\n");
+    for (k = 0; k < NUM_NAME_CHARS; k++) {
+        sprintf(c, "%c", r->name[k]);
+        print_char_bits(r->name[k], c);
+    }
     size_t ns = nc + 65; // 6 + 65 = 71
     char s[ns], b;
-    int i;
     memset(s, '0', nc + 65);
     s[ns - 1] = '\0';  // ns - 1 = 70
     // name: bytes 1 - 6 (Bit index 0 - 5)
@@ -49,5 +57,5 @@ void print_pair_bits(Pair *r, char *desc)
         b = (r->e & (1 << i)) != 0 ? '1' : '0';
         s[nc + 63 - i] = b;
     }
-    printf("  %s: %s\n", desc, s);
+    printf("  Bytes 7 - 14:\n  %s\n", s);
 }
